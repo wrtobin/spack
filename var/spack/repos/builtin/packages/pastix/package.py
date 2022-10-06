@@ -59,6 +59,8 @@ class Pastix(CMakePackage, CudaPackage):
         depends_on("cuda", when="+cuda")
     depends_on("mpi", when="+mpi")
 
+    patch("morse-common-mkl.patch")
+
     def cmake_args(self):
         spec = self.spec
 
@@ -93,5 +95,8 @@ class Pastix(CMakePackage, CudaPackage):
                     self.define("MPI_Fortran_COMPILER", self.spec["mpi"].mpifc),
                 ]
             )
+
+        if spec.compiler.name == "intel":
+            args.append('-DCMAKE_C_FLAGS=-std=c99')
 
         return args

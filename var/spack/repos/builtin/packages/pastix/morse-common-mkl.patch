@@ -1,0 +1,15 @@
+diff --git a/cmake_modules/morse_cmake/modules/find/FindMorseCommon.cmake b/cmake_modules/morse_cmake/modules/find/FindMorseCommon.cmake
+index c85a419a1..019ad7345 100644
+--- a/cmake_modules/morse_cmake/modules/find/FindMorseCommon.cmake
++++ b/cmake_modules/morse_cmake/modules/find/FindMorseCommon.cmake
+@@ -73,7 +73,9 @@ endmacro()
+ # add imported target for non-cmake projects or projects which do not provide
+ # "PROJECT"Config.cmake file at installation
+ macro(morse_check_static_or_dynamic package libraries)
+-  list(GET ${libraries} 0 _first_lib)
++  set( lib_copy ${${libraries}} )
++  list(REMOVE_ITEM lib_copy "-Wl,--start-group" "-Wl,--end-group")
++  list(GET lib_copy 0 _first_lib)
+   get_filename_component(_suffix ${_first_lib} EXT)
+
+   message( DEBUG "[mcstod] package ${package}")
